@@ -4,26 +4,35 @@ from django.db import models
 
 class User(models.Model):
     email = models.EmailField()
-    phone_nombers = models.TextField(max_length=255, verbose_name='Контактный телефон')
-    fam = models.TextField(max_length=255,verbose_name='Фамилия')
-    name = models.TextField(max_length=255, verbose_name='Имя')
-    otc = models.TextField(max_length=255, verbose_name='Отчество')
+    phone_nombers = models.CharField(max_length=255)
+    fam = models.CharField(max_length=255)
+    name = models.CharField(max_length=255)
+    otc = models.CharField(max_length=255)
+
+    def __str__(self):
+        return f'{self.fam} {self.name} {self.otc}'
 
 class Coords(models.Model):
-    latitude = models.FloatField(verbose_name='Широта')
-    longitude = models.FloatField(verbose_name='Долгота')
-    height = models.IntegerField(verbose_name='Высота')
+    latitude = models.FloatField()
+    longitude = models.FloatField()
+    height = models.IntegerField()
 
 class Level(models.Model):
-    winter = models.TextField(verbose_name='Зима', null=True, blank=True)
-    summer = models.TextField(verbose_name='Лето', null=True, blank=True)
-    autumn = models.TextField(verbose_name='Осень', null=True, blank=True)
-    spring = models.TextField(verbose_name='Весна', null=True, blank=True)
+    winter = models.CharField(max_length=128)
+    summer = models.CharField(max_length=128)
+    autumn = models.CharField(max_length=128)
+    spring = models.CharField(max_length=128)
 
 class Images(models.Model):
-    data = models.ImageField(max_length=2000, verbose_name='Изображение', null=True, blank=True)
-    title = models.TextField(max_length=255, null=True, blank=True)
+    data = models.ImageField()
+    title = models.CharField(max_length=255, null=True)
     date_added = models.DateField(auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        with open('static/image', 'rb') as f:
+            self.data.save(f)
+
 
 
 class Pereval(models.Model):

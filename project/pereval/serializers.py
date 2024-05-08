@@ -1,6 +1,6 @@
 from .models import *
 from rest_framework import serializers
-from drf_writable_nested import WritableNestedModelSerializer
+
 
 class UsersSerializer(serializers.ModelSerializer):
     class Meta:
@@ -27,7 +27,7 @@ class ImagesSerializer(serializers.ModelSerializer):
         fields = ['data', 'title']
 
 
-class PerevalSerializer(WritableNestedModelSerializer):
+class PerevalSerializer(serializers.ModelSerializer):
     user = UsersSerializer()
     coord = CoordSerializer()
     level = LevelSerializer()

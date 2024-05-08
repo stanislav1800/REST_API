@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 from pathlib import Path
 import psycopg2
 import os
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -41,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'pereval',
     'rest_framework',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -84,15 +86,19 @@ WSGI_APPLICATION = 'project.wsgi.application'
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
-
+load_dotenv()
+FSTR_DB_HOST = os.getenv("FSTR_DB_HOST")
+FSTR_DB_PORT = os.getenv("FSTR_DB_PORT")
+FSTR_DB_LOGIN = os.getenv("FSTR_DB_LOGIN")
+FSTR_DB_PASS = os.getenv("FSTR_DB_PASS")
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': 'password',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'USER': FSTR_DB_LOGIN,
+        'PASSWORD': FSTR_DB_PASS,
+        'HOST': FSTR_DB_HOST,
+        'PORT': FSTR_DB_PORT,
     },
 }
 

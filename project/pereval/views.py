@@ -18,7 +18,7 @@ class CoordsViewSet(viewsets.ModelViewSet):
 
 
 class LevelViewSet(viewsets.ModelViewSet):
-    queryset = Coords.objects.all()
+    queryset = Level.objects.all()
     serializer_class = LevelSerializer
     permission_classes = [permissions.IsAuthenticated]
 
