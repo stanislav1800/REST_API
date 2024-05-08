@@ -40,7 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    #
     'pereval',
+    # 'rest_framework_swagger',
     'rest_framework',
     'django_filters',
 ]
@@ -87,18 +89,18 @@ WSGI_APPLICATION = 'project.wsgi.application'
 #     }
 # }
 load_dotenv()
-FSTR_DB_HOST = os.getenv("FSTR_DB_HOST")
-FSTR_DB_PORT = os.getenv("FSTR_DB_PORT")
-FSTR_DB_LOGIN = os.getenv("FSTR_DB_LOGIN")
-FSTR_DB_PASS = os.getenv("FSTR_DB_PASS")
+# FSTR_DB_HOST = os.getenv("FSTR_DB_HOST")
+# FSTR_DB_PORT = os.getenv("FSTR_DB_PORT")
+# FSTR_DB_LOGIN = os.getenv("FSTR_DB_LOGIN")
+# FSTR_DB_PASS = os.getenv("FSTR_DB_PASS")
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'postgres',
-        'USER': FSTR_DB_LOGIN,
-        'PASSWORD': FSTR_DB_PASS,
-        'HOST': FSTR_DB_HOST,
-        'PORT': FSTR_DB_PORT,
+        'USER': os.getenv("FSTR_DB_LOGIN"),
+        'PASSWORD': os.getenv("FSTR_DB_PASS"),
+        'HOST': os.getenv("FSTR_DB_HOST"),
+        'PORT': os.getenv("FSTR_DB_PORT"),
     },
 }
 
@@ -138,7 +140,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
-
+STATICFILES_DIRS = [BASE_DIR / "static"]
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
@@ -149,8 +151,6 @@ REST_FRAMEWORK = {
    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
    'PAGE_SIZE': 10,
-   'DEFAULT_PERMISSION_CLASSES': [
-       'rest_framework.permissions.IsAuthenticated',
-   ]
+
 
 }
