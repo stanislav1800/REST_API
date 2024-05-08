@@ -27,7 +27,7 @@ class Images(models.Model):
     data = models.ImageField(upload_to='media/')
     title = models.CharField(max_length=255, null=True)
     date_added = models.DateField(auto_now_add=True)
-
+    pereval = models.ForeignKey('Pereval', on_delete=models.CASCADE, related_name='images')
     # def save(self, *args, **kwargs):
     #     super().save(*args, **kwargs)
     #     with open('static\\image', 'rb') as f:
@@ -44,10 +44,10 @@ class Pereval(models.Model):
         ("rejected", "отклонен"),
 )
 
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    image_id = models.ManyToManyField(Images, through='PerevalImages')
-    coords_id = models.OneToOneField(Coords, on_delete=models.CASCADE)
-    level_id = models.OneToOneField(Level, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    # image = models.ManyToManyField(Images, through='PerevalImages')
+    coords = models.OneToOneField(Coords, on_delete=models.CASCADE)
+    level = models.OneToOneField(Level, on_delete=models.CASCADE)
     status = models.CharField(choices=STATUS_CHOICES, default='new')
     beauty_title = models.CharField(max_length=128)
     title = models.CharField(max_length=128)
@@ -55,7 +55,7 @@ class Pereval(models.Model):
     connect = models.CharField(max_length=128)
     add_time = models.DateTimeField(auto_now_add=True)
 
-class PerevalImages(models.Model):
-    image = models.ForeignKey(Images, on_delete=models.CASCADE)
-    pereval = models.ForeignKey(Pereval, on_delete=models.CASCADE)
+# class PerevalImages(models.Model):
+#     image = models.ForeignKey(Images, on_delete=models.CASCADE)
+#     pereval = models.ForeignKey(Pereval, on_delete=models.CASCADE)
 

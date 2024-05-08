@@ -30,31 +30,36 @@ class ImagesSerializer(serializers.ModelSerializer):
 
 class PerevalSerializer(WritableNestedModelSerializer):
     print('Зашол')
-    user_id = UsersSerializer()
-    coords_id = CoordSerializer()
-    level_id = LevelSerializer(allow_null=True)
+    user = UsersSerializer()
+    coords = CoordSerializer()
+    level = LevelSerializer(allow_null=True)
     images = ImagesSerializer(many=True)
     # status = serializers.CharField()
 
     class Meta:
         model = Pereval
-        fields = ['id', 'beauty_title', 'title', 'other_titles', 'connect', 'add_time', 'user_id', 'coords_id', 'level_id', 'images', 'status']
+        fields = ['id', 'beauty_title', 'title', 'other_titles', 'connect', 'add_time', 'user', 'coords', 'level', 'images', 'status']
 
 
     def create(self, validated_data, **kwargs):
-        user_data = validated_data.pop('user_id')
-        coord_data = validated_data.pop('coords_id')
-        level_data = validated_data.pop('level_id')
+        user_data = validated_data.pop('user')
+        coord_data = validated_data.pop('coords')
+        level_data = validated_data.pop('level')
         images_data = validated_data.pop('images')
+        # beauty_title = validated_data.pop('beauty_title')
+        # title = validated_data.pop('title')
+        # other_titles = validated_data.pop('other_titles')
+        # connect = validated_data.pop('connect')
 
-        user_id, created = User.objects.get_or_create(**user_data)
+        user, created = User.objects.get_or_create(**user_data)
         coord_id = Coords.objects.create(**coord_data)
         level_id = Level.objects.create(**level_data)
+        images = Level.objects.create(**level_data)
 
-        pereval = Pereval.objects.create(user_id=user_id, coords_id=coord_id, level_id=level_id, **validated_data)
+        pereval = Pereval.objects.create(user_id=user.pk, coords_id=coord_id.pk, level_id=level_id.pk, **validated_data)
 
         for image_data in images_data:
-            Images.objects.create(**image_data, pereval=pereval)
+            Images.objects.create(pereval=pereval, **image_data)
 
         return pereval
 

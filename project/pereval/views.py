@@ -34,38 +34,38 @@ class PerevalViewSet(viewsets.ModelViewSet):
     ilter_backends = [django_filters.rest_framework.DjangoFilterBackend]
     filterset_fields = ['beauty_title', 'title', 'add_time', 'user__email']
 
-    # def create(self, request, *args, **kwargs):
-    #     if self.action == 'create':
-    #        serializer = PerevalSerializer(data=request.data)
-    #
-    #        if serializer.is_valid():
-    #            serializer.save()
-    #            return Response(
-    #                {
-    #                    'status': status.HTTP_200_OK,
-    #                    'message': 'Успех!',
-    #                    'id': serializer.instance.pk,
-    #                }
-    #            )
-    #
-    #        if status.HTTP_400_BAD_REQUEST:
-    #            return Response(
-    #                {
-    #                    'status': status.HTTP_400_BAD_REQUEST,
-    #                    'message': 'Некорректный запрос',
-    #                    'id': None,
-    #                }
-    #            )
-    #
-    #        if status.HTTP_500_INTERNAL_SERVER_ERROR:
-    #            return Response(
-    #                {
-    #                    'status': status.HTTP_500_INTERNAL_SERVER_ERROR,
-    #                    'message': 'Ошибка при выполнении операции',
-    #                    'id': None,
-    #                }
-    #            )
-    #     return super().create(request, *args, **kwargs)
+    def create(self, request, *args, **kwargs):
+        if self.action == 'create':
+           serializer = PerevalSerializer(data=request.data)
+
+           if serializer.is_valid():
+               serializer.save()
+               return Response(
+                   {
+                       'status': status.HTTP_200_OK,
+                       'message': 'Успех!',
+                       'id': serializer.instance.pk,
+                   }
+               )
+
+           if status.HTTP_400_BAD_REQUEST:
+               return Response(
+                   {
+                       'status': status.HTTP_400_BAD_REQUEST,
+                       'message': 'Некорректный запрос',
+                       'id': None,
+                   }
+               )
+
+           if status.HTTP_500_INTERNAL_SERVER_ERROR:
+               return Response(
+                   {
+                       'status': status.HTTP_500_INTERNAL_SERVER_ERROR,
+                       'message': 'Ошибка при выполнении операции',
+                       'id': None,
+                   }
+               )
+        return super().create(request, *args, **kwargs)
 
     def update(self, instance, validated_data):
        user = validated_data.pop('user')
