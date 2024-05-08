@@ -24,7 +24,7 @@ class Level(models.Model):
     spring = models.CharField(max_length=128)
 
 class Images(models.Model):
-    data = models.ImageField(upload_to='media/')
+    data = models.ImageField(upload_to='images')
     title = models.CharField(max_length=255, null=True)
     date_added = models.DateField(auto_now_add=True)
     pereval = models.ForeignKey('Pereval', on_delete=models.CASCADE, related_name='images')

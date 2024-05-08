@@ -67,20 +67,20 @@ class PerevalViewSet(viewsets.ModelViewSet):
                )
         return super().create(request, *args, **kwargs)
 
-    def update(self, instance, validated_data):
-       user = validated_data.pop('user')
-       coord = validated_data.pop('coords')
-       level = validated_data.pop('level')
-       images = validated_data.pop('images')
-
-       user = User.objects.update(**user)
-       coord = Coords.objects.update(**coord)
-       level = Level.objects.update(**level)
-
-       for image in images:
-           data = image.pop('data')
-           title = image.pop('title')
-           PerevalImages.objects.update(data=data, title=title)
-
-       return super().update(instance, validated_data)
+    # def update(self, instance, validated_data):
+    #    user = validated_data.pop('user')
+    #    coord = validated_data.pop('coords')
+    #    level = validated_data.pop('level')
+    #    images = validated_data.pop('images')
+    #
+    #    user = User.objects.update(**user)
+    #    coord = Coords.objects.update(**coord)
+    #    level = Level.objects.update(**level)
+    #
+    #    for image in images:
+    #        data = image.pop('data')
+    #        title = image.pop('title')
+    #        PerevalImages.objects.update(data=data, title=title)
+    #
+    #    return super().update(instance, validated_data)
 
