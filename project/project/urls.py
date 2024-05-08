@@ -28,7 +28,7 @@ router.register(r'user', views.UserViewset)
 router.register(r'coords', views.CoordsViewSet)
 router.register(r'level', views.LevelViewSet)
 router.register(r'image', views.ImageViewSet)
-router.register(r'pereval', views.PerevalViewset)
+router.register(r'pereval', views.PerevalViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),

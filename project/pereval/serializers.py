@@ -1,5 +1,6 @@
 from .models import *
 from rest_framework import serializers
+from drf_writable_nested import WritableNestedModelSerializer
 
 
 class UsersSerializer(serializers.ModelSerializer):
@@ -27,24 +28,23 @@ class ImagesSerializer(serializers.ModelSerializer):
         fields = ['data', 'title']
 
 
-class PerevalSerializer(serializers.ModelSerializer):
+class PerevalSerializer(WritableNestedModelSerializer):
     print('Зашол')
-    user = UsersSerializer()
-    coord = CoordSerializer()
-    level = LevelSerializer(allow_null=True)
+    user_id = UsersSerializer()
+    coords_id = CoordSerializer()
+    level_id = LevelSerializer(allow_null=True)
     images = ImagesSerializer(many=True)
-    status = serializers.CharField()
+    # status = serializers.CharField()
 
     class Meta:
         model = Pereval
-        depth = 1
-        fields = ['id', 'beauty_title', 'title', 'other_titles', 'connect', 'add_time', 'user', 'coords', 'level', 'images', 'status']
+        fields = ['id', 'beauty_title', 'title', 'other_titles', 'connect', 'add_time', 'user_id', 'coords_id', 'level_id', 'images', 'status']
 
 
     def create(self, validated_data, **kwargs):
-        user_data = validated_data.pop('user')
-        coord_data = validated_data.pop('coord')
-        level_data = validated_data.pop('level')
+        user_data = validated_data.pop('user_id')
+        coord_data = validated_data.pop('coords_id')
+        level_data = validated_data.pop('level_id')
         images_data = validated_data.pop('images')
 
         user_id, created = User.objects.get_or_create(**user_data)

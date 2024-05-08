@@ -24,34 +24,31 @@ class Level(models.Model):
     spring = models.CharField(max_length=128)
 
 class Images(models.Model):
-    data = models.ImageField()
+    data = models.ImageField(upload_to='media/')
     title = models.CharField(max_length=255, null=True)
     date_added = models.DateField(auto_now_add=True)
 
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        with open('static/image', 'rb') as f:
-            self.data.save(f)
+    # def save(self, *args, **kwargs):
+    #     super().save(*args, **kwargs)
+    #     with open('static\\image', 'rb') as f:
+    #         print(f)
+    #         self.data.save(f)
 
 
 
 class Pereval(models.Model):
-    NEW = 'NW'
-    PENDING = 'PN'
-    ACCEPTED = 'AC'
-    REJECTED = 'RJ'
     STATUS_CHOICES = (
-        ("NW", "new"),
-        ("PN", "pending"),
-        ("AC", "accepted"),
-        ("RJ", "rejected"),
+        ("new", "новый"),
+        ("pending", "на рассмотрении"),
+        ("accepted", "принят"),
+        ("rejected", "отклонен"),
 )
 
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     image_id = models.ManyToManyField(Images, through='PerevalImages')
     coords_id = models.OneToOneField(Coords, on_delete=models.CASCADE)
     level_id = models.OneToOneField(Level, on_delete=models.CASCADE)
-    status = models.CharField(choices=STATUS_CHOICES, default='NEW')
+    status = models.CharField(choices=STATUS_CHOICES, default='new')
     beauty_title = models.CharField(max_length=128)
     title = models.CharField(max_length=128)
     other_titles = models.CharField(max_length=128)
